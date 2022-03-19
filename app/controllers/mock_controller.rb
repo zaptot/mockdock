@@ -15,7 +15,7 @@ class MockController < ApplicationController
 
   def save_request!(endpoint, method_name)
     Request.create!(
-      params: params.except(*%w[dymamic_mock_path controller action]),
+      params: params.except('dymamic_mock_path'),
       http_method: method_name,
       endpoint: endpoint,
       headers: request.headers

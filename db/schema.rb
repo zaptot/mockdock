@@ -12,13 +12,16 @@
 
 ActiveRecord::Schema.define(version: 2022_03_19_110906) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
     t.text "body"
     t.string "resource_type"
-    t.integer "resource_id"
+    t.bigint "resource_id"
     t.string "author_type"
-    t.integer "author_id"
+    t.bigint "author_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author"
@@ -26,19 +29,14 @@ ActiveRecord::Schema.define(version: 2022_03_19_110906) do
     t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource"
   end
 
-  create_table "endpoints", force: :cascade do |t|
-    t.string "path", null: false
-    t.json "response_data", default: {}, null: false
-    t.integer "response_code", default: 200, null: false
-    t.string "http_method", null: false
-    t.index ["path", "http_method"], name: "index_endpoints_on_path_and_http_method", unique: true
-  end
+# Could not dump table "endpoints" because of following StandardError
+#   Unknown type 'request_method' for column 'http_method'
 
   create_table "requests", force: :cascade do |t|
-    t.json "params", default: {}, null: false
-    t.json "headers"
+    t.jsonb "params", default: {}, null: false
+    t.jsonb "headers"
     t.string "http_method"
-    t.integer "endpoint_id"
+    t.bigint "endpoint_id"
     t.datetime "created_at", null: false
     t.index ["endpoint_id"], name: "index_requests_on_endpoint_id"
   end
