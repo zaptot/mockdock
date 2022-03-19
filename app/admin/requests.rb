@@ -12,5 +12,7 @@ ActiveAdmin.register Request do
     column(:endpoint) { |request| auto_link(request.endpoint, request.endpoint.beauty_name) }
     column(:params)
     column(:created_at)
+
+    actions
   end
 end
